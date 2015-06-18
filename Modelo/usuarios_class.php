@@ -151,7 +151,6 @@ class usuarios extends db_abstract_class{
     }
 
     public function insertar(){
-        $arrUser = (array) $this;
         $this->insertRow("INSERT INTO usuarios
             VALUES ('NULL', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", array( 
                 $this->tipo_identificacion,
@@ -171,8 +170,22 @@ class usuarios extends db_abstract_class{
     }
 
     public function editar(){
-		
-        return $this->user_login;
+		$arrUser = (array) $this;
+		$this->updateRow("UPDATE usuarios SET tipo_identificacion = ?, Identificacion = ?, Nombres = ?, Apellidos = ?, Telefono = ?, Direccion = ?, Fecha_Nacimiento = ?, Saldo_Cuenta = ?, user_login = ?, pass_login = ?, estado = ? WHERE idUsuarios = ?", array(
+			$this->tipo_identificacion,
+            $this->identificacion,
+            $this->nombres,
+            $this->apellidos,
+            $this->telefono,
+            $this->direccion,
+            $this->fecha_nacimiento,
+            $this->saldo,
+            $this->user_login,
+            $this->pass_login,
+            $this->estado,
+			$this->id,
+		));
+		$this->Disconnect();
     }
 
     public function eliminar(){
@@ -200,11 +213,36 @@ class usuarios extends db_abstract_class{
 		}else{
 			return NULL;
 		}
-
+		$this->Disconnect();
     }
 	
-	 public function buscar(){
-
+    public static function getAll(){
+		return usuarios::buscar("SELECT * FROM usuarios");
+    }
+	
+	public static function buscar($query){
+        $arrUsuarios = array();
+        $tmp = new usuarios();
+        $getrows = $tmp->getRows($query);
+        
+        foreach ($getrows as $valor) {
+            $usr = new usuarios();
+            $usr->id = $valor['idUsuarios'];
+            $usr->tipo_identificacion = $valor['tipo_identificacion'];
+            $usr->identificacion = $valor['Identificacion'];
+            $usr->nombres = $valor['Nombres'];
+            $usr->apellidos = $valor['Apellidos'];
+            $usr->telefono = $valor['Telefono'];
+            $usr->direccion = $valor['Direccion'];
+            $usr->fecha_nacimiento = $valor['Fecha_Nacimiento'];
+            $usr->saldo = $valor['Saldo_Cuenta'];
+            $usr->user_login = $valor['user_login'];
+            $usr->pass_login = $valor['pass_login'];
+            $usr->estado = $valor['estado'];
+            array_push($arrUsuarios, $usr);
+        }
+        $tmp->Disconnect();
+        return $arrUsuarios;
     }
 
 }

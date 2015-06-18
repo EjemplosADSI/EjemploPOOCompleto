@@ -1,12 +1,11 @@
 <?php
-
 	include('class.upload.php');
 
 	class generic_functions {
 		/* Funcion para subir un archivo */
 		public static function newUploadFile($archivoSubir,$rutaGuardarArchivo='UploadedFiles') {
 			//Crea Una Nueva Instancia de la clase de subir archivos.
-	        $archivo = new Upload($archivoSubir, 'es_ES'); 
+	        $archivo = new Upload($archivoSubir, 'es_ES');
 	        // Verificamos si se puede subir el archivo
 			if ($archivo->uploaded){
 				//Le damos un nuevo nombre al archivo para que no se duplique.

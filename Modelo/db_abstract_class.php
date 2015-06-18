@@ -9,7 +9,8 @@
 
         # métodos abstractos para ABM de clases que hereden 
         abstract protected static function buscarForId($id);
-		abstract protected function buscar();
+	abstract protected static function buscar($query);
+        abstract protected static function getAll();
         abstract protected function insertar();
         abstract protected function editar();
         abstract protected function eliminar();
